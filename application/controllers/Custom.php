@@ -26,8 +26,45 @@ class Custom extends CI_Controller
     public function store()
     {
         $products=new customModel;
-        $products->store();
-        redirect(base_url('custom'));
+        if($products->store())
+        {
+            $_SESSION['msg'] = 'Record sucessfully insert.';
+            $data['data']=$products->index();
+            $this->load->view('custom/index', $data);
+        }
+
+    }
+
+    /**
+     * Update Data from this method.
+     *
+     * @return Response
+     */
+    public function update()
+    {
+        $products=new customModel;
+        if ( $products->update() ) {
+            $data['data']=$products->index();
+            $_SESSION['msg'] = 'Record Update.';
+            $this->load->view('custom/index', $data) ;
+        }
+    }
+
+    /**
+     * Delete Data from this method.
+     *
+     * @return Response
+     */
+    public function delete($id)
+    {
+        $products=new customModel;
+
+        if ( $products->delete($id) ) {
+            $data['data']=$products->index();
+            $data['data']=$products->index();
+            $_SESSION['msg'] = 'Record sucessfully Delete.';
+            $this->load->view('custom/index', $data);
+        }
     }
 
 }

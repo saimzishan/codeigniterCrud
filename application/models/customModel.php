@@ -25,7 +25,6 @@ class customModel extends CI_Model {
      */
     public function store()
     {
-        $this->load->database();
 
         $data = array(
             'name' => $this->input->post('name'),
@@ -35,6 +34,30 @@ class customModel extends CI_Model {
         return $this->db->insert('test', $data);
     }
 
+    public function update()
+    {
+        $id = $this->input->post('id');
+        $data=array(
+            'name' => $this->input->post('name'),
+            'email'=> $this->input->post('email')
+        );
+        if($id==0){
+            return $this->db->insert('products',$data);
+        }else{
+            $this->db->where('id',$id);
+            return $this->db->update('test',$data);
+        }
+    }
+
+
+    public function delete($id)
+    {
+
+        $this->db->where('id', $id);
+        $res = $this->db->delete('test');
+
+        return $res;
+    }
 
 
 }

@@ -56,7 +56,6 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['custom'] = "Custom/index";
 
-$route['productsCreate']['post'] = "Custom/store";
-$route['productsEdit/(:any)'] = "Custom/edit/$1";
-$route['productsUpdate/(:any)']['put'] = "Custom/update/$1";
-$route['productsDelete/(:any)']['delete'] = "Custom/delete/$1";
+
+$route['products/delete'] = "Custom/delete/$1";
+//$route['itemCRUDDelete/(:any)']['delete'] = "itemCRUD/delete/$1";

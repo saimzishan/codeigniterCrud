@@ -9,9 +9,19 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-lg-12 margin-tb">
+        <div class="col-lg-6 margin-tb">
             <div class="pull-left">
                 <h2>Codeigniter 3 CRUD Example</h2>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="wy-alert-success" id="mesg" style="  color:green;  width:50%;" >
+                <?php
+                    if(isset($_SESSION['msg'])){
+                        echo $_SESSION['msg'];
+                        unset($_SESSION['msg']);
+                    }
+                ?>
             </div>
             <div class="pull-right">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#create-item"> Create Item</button>
@@ -35,8 +45,11 @@
                 <td><?php echo $item->name; ?></td>
                 <td><?php echo $item->email; ?></td>
                 <td>
-                    <form method="DELETE" action="<?php echo base_url('products/delete/'.$item->id);?>">
-                        <a class="btn btn-info btn-xs" href="<?php echo base_url('products/edit/'.$item->id) ?>">Edit</a>
+                    <form  method="DELETE" action="delete/<?php echo $item->id?>" onsubmit="return confirm('Are you sure you want to delete this?');">
+                        <button type="button" class="editBtn btn btn-info btn-small btn-xs" data-backdrop="static" data-keyboard="false"
+                                data-id="<?php echo "$item->id"?>" data-name="<?php echo "$item->name"?>"  data-email="<?php echo "$item->email"?>" >
+                            Edit
+                        </button> |
                         <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                     </form>
                 </td>
@@ -62,7 +75,6 @@
                 <div class="modal-body">
 
                     <form data-toggle="validator" action="store" method="POST">
-
                         <div class="form-group">
                             <label class="control-label" for="title">Name:</label>
                             <input type="text" name="name" class="form-control" data-error="Please enter Name." required />
@@ -100,17 +112,17 @@
 
                 <div class="modal-body">
 
-                    <form data-toggle="validator" action="" method="put">
-
+                    <form data-toggle="validator" action="update" method="POST">
+                        <input type="hidden" name="id" id="id"  class="form-control"  />
                         <div class="form-group">
-                            <label class="control-label" for="title">Title:</label>
-                            <input type="text" name="name" class="form-control" data-error="Please enter title." required />
+                            <label class="control-label" for="title">Name:</label>
+                            <input type="text" name="name" id="name" class="form-control" data-error="Please enter title." required />
                             <div class="help-block with-errors"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="title">Description:</label>
-                            <input type="text" name="email" class="form-control" data-error="Please enter Email." required />
+                            <label class="control-label" for="title">Email:</label>
+                            <input type="text" name="email" id="email" class="form-control" data-error="Please enter Email." required />
                             <div class="help-block with-errors"></div>
                         </div>
 
@@ -137,5 +149,25 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
 
 
+<!--<script src="https://code.jquery.com/jquery-1.12.3.js"></script>-->
+<script type="text/javascript">
+    function closeMesg() {
+        var a;
+        a = document.getElementById("mesg");
+        setTimeout(function () {
+            a.innerHTML = " ";
+        }, 2000);
+    }
+    $(document).ready(function(){
+        $(document).on("click", ".editBtn", function(){
+
+            $("#edit-item").modal('show');
+            $("#id").val($(this).attr('data-id'));
+            $("#name").val($(this).attr('data-name'));
+            $("#email").val($(this).attr('data-email'));
+        });
+        closeMesg();
+    });
+</script>
 </body>
 </html>
